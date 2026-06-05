@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Personal Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="bg-blobs">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
+    <h1 class="main-heading">🤖 AI Personal Assistant</h1>
+
+    <div class="container">
+
+        <!-- ===== SEARCH ANYTHING SECTION ===== -->
+        <div class="section-card">
+            <h2>💬 Ask Anything</h2>
+            <form id="askForm">
+                <input
+                    type="text"
+                    name="question"
+                    placeholder="Search anything..."
+                    required
+                >
+                <button type="submit">🔍 Search</button>
+            </form>
+            <div id="ask-loader" class="loader"></div>
+            <p id="answer"></p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ===== SUMMARIZE CONTENT SECTION ===== -->
+        <div class="section-card">
+            <h2>📋 Summarize Content</h2>
+            <form id="emailForm">
+                <textarea
+                    name="email"
+                    placeholder="Paste any content here to summarize..."
+                    required
+                ></textarea>
+                <button type="submit">✨ Summarize</button>
+            </form>
+            <div id="summary-loader" class="loader"></div>
+            <p id="summary"></p>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById("askForm")
+        .addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            document.getElementById("ask-loader").style.display = "block";
+            document.getElementById("answer").innerText = "";
+            const response = await fetch("/ask", { method: "POST", body: formData });
+            const data = await response.json();
+            document.getElementById("answer").innerText = data.response;
+            document.getElementById("ask-loader").style.display = "none";
+        });
+
+        document.getElementById("emailForm")
+        .addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            document.getElementById("summary-loader").style.display = "block";
+            document.getElementById("summary").innerText = "";
+            const response = await fetch("/summarize", { method: "POST", body: formData });
+            const data = await response.json();
+            document.getElementById("summary").innerText = data.response;
+            document.getElementById("summary-loader").style.display = "none";
+        });
+    </script>
+
+</body>
+</html>
