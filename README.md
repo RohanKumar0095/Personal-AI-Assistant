@@ -15,4 +15,3 @@ A Flask web app powered by Google Gemini 3.5 Flash.
 5. Create `.env` file and add your `GEMINI_API_KEY`
 6. Run: `python app.py`
 7. Open: http://127.0.0.1:5000
-
